@@ -1,1 +1,5 @@
-if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/Re-NQX-Pages/sw.js', { scope: '/Re-NQX-Pages/' })})}
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', { scope: './' });
+  });
+}
