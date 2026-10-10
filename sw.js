@@ -1,16 +1,16 @@
-const CACHE = 'renqx-step2-v1';
-const BASE = '/Re-NQX-Pages/';
+const CACHE = 'renqx-step2-v2';
+const BASE = new URL('./', self.location.href);
 const STATIC = [
-  BASE,
-  `${BASE}index.html`,
-  `${BASE}manifest.webmanifest`,
-  `${BASE}icon.svg`,
-  `${BASE}registerSW.js`,
-  `${BASE}assets/app-loader.js`,
-  `${BASE}assets/index-Bi3gUn52.js`,
-  `${BASE}assets/index-CDA-63si.css`,
-  `${BASE}assets/qr-scanner-worker.min-CJaXo3yu.js`
-];
+  './',
+  './index.html',
+  './manifest.webmanifest',
+  './icon.svg',
+  './registerSW.js',
+  './assets/app-loader.js',
+  './assets/index-Bi3gUn52.js',
+  './assets/index-CDA-63si.css',
+  './assets/qr-scanner-worker.min-CJaXo3yu.js'
+].map(path => new URL(path, BASE).href);
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(STATIC)));
@@ -29,7 +29,7 @@ self.addEventListener('fetch', event => {
 
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      fetch(event.request).catch(() => caches.match(`${BASE}index.html`))
+      fetch(event.request).catch(() => caches.match(new URL('./index.html', BASE).href))
     );
     return;
   }
