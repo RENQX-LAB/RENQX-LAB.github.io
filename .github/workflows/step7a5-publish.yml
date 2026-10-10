@@ -1,0 +1,41 @@
+name: STEP 7A-5 Publish
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/step7a5-publish.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download validated release artifact
+        run: |
+          curl -L --fail --retry 2 'https://sdmntprjapaneast.oaiusercontent.com/files/00000000-9ed8-8209-a80f-8e1abfbe38e7/raw?se=2026-10-10T09%3A32%3A06Z&sp=r&sv=2026-02-06&sr=b&scid=7ea511f5-b035-576d-949b-5d9b83d9dc44&skoid=b1bca990-dcac-4c31-8ca1-ac563cf24c54&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-10T01%3A20%3A24Z&ske=2026-10-11T01%3A20%3A24Z&sks=b&skv=2026-02-06&sig=Fkey7ocn8oEyyAzcIYSg%2BPEhm4m3oz9k1%2BjZuJoORzE%3D' -o /tmp/renqx-step7a5.zip
+          echo '7cd42f6ae5494faaec553f49c286927efa126bf77dc16a0b5ed26c55e0348b3d  /tmp/renqx-step7a5.zip' | sha256sum -c -
+      - name: Install exact release under re-NQX
+        run: |
+          rm -rf /tmp/renqx-step7a5
+          mkdir -p /tmp/renqx-step7a5
+          unzip -q /tmp/renqx-step7a5.zip -d /tmp/renqx-step7a5
+          rm -rf re-NQX
+          mkdir -p re-NQX
+          cp -a /tmp/renqx-step7a5/. re-NQX/
+          test -f re-NQX/index.html
+          test -f re-NQX/manifest.webmanifest
+          test -f re-NQX/sw.js
+      - name: Publish release
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A re-NQX
+          git diff --cached --quiet && exit 0
+          git commit -m "Publish STEP 7A-5 release"
+          git push origin HEAD:main
