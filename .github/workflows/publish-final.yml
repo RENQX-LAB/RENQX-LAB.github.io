@@ -1,0 +1,50 @@
+name: Publish Re:NQX STEP 7A-3
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publish-final.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout public mirror
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Download and verify STEP 7A-3 artifact
+        shell: bash
+        run: |
+          curl -L --fail --retry 3 'https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-0acc-8206-a84e-f61668f0bbb2/raw?se=2026-10-10T07%3A48%3A44Z&sp=r&sv=2026-02-06&sr=b&scid=4a01598e-a989-5570-bbff-d84a97ef4a8b&skoid=b1bca990-dcac-4c31-8ca1-ac563cf24c54&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-10T00%3A04%3A22Z&ske=2026-10-11T00%3A04%3A22Z&sks=b&skv=2026-02-06&sig=wCBDHLag9bBE1ZkrqeK4K0uGNixieY83XQKSwdWxtZY%3D' -o release.zip
+          echo 'e9cfb2078312dca4fb43a26c2894005601dfd934144f76cfa2126773d058f377  release.zip' | sha256sum -c -
+          rm -rf release
+          mkdir release
+          unzip -q release.zip -d release
+          test -f release/index.html
+          test -f release/manifest.webmanifest
+          test -f release/registerSW.js
+          test -f release/sw.js
+          test -f release/assets/index-B2AJCDnK.js
+          test -f release/assets/index-_AEPhu6Y.css
+          test -f release/assets/qr-scanner-worker.min-CJaXo3yu.js
+      - name: Install exact release
+        shell: bash
+        run: |
+          rm -rf re-NQX
+          mkdir re-NQX
+          cp -a release/. re-NQX/
+          find re-NQX -type f | sort
+      - name: Commit public release
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add re-NQX
+          git diff --cached --quiet && exit 0
+          git commit -m 'Publish STEP 7A-3 Re:NQX release'
+          git push origin HEAD:main
