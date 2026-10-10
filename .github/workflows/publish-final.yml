@@ -17,8 +17,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Download and verify frozen artifact
         run: |
-          curl --fail --location --retry 3 'https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-d188-8206-acbb-28365ef9b66f/raw?se=2026-10-10T05%3A40%3A53Z&sp=r&sv=2026-02-06&sr=b&scid=a5f5f264-02fa-58e8-a37b-654a3a8bf37b&skoid=b1bca990-dcac-4c31-8ca1-ac563cf24c54&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-09T23%3A43%3A34Z&ske=2026-10-10T23%3A43%3A34Z&sks=b&skv=2026-02-06&sig=e5QpaWCImQF32AaVc/Pz8KDZtiXZq1DDnNpT9RdpEYU%3D' --output /tmp/re-nqx-final-dist.zip
-          echo '83f49bc6f26d667de04b862e000612168a87c7cee568a0bc8b3dba620365be10  /tmp/re-nqx-final-dist.zip' | sha256sum -c -
+          curl --fail --location --retry 3 'https://sdmntprjapaneast.oaiusercontent.com/files/00000000-27d0-8209-840b-c149ef75789c/raw?se=2026-10-10T06%3A41%3A26Z&sp=r&sv=2026-02-06&sr=b&scid=6ed02b84-c703-5497-9efa-1e6fab34df0e&skoid=b1bca990-dcac-4c31-8ca1-ac563cf24c54&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-10T00%3A31%3A37Z&ske=2026-10-11T00%3A31%3A37Z&sks=b&skv=2026-02-06&sig=CKaoAR9RYpyghx91WDL6rjohbWnV5bOPNMyz97eU1mE%3D' --output /tmp/re-nqx-final-dist.zip
+          echo 'ab7c94a231168de01b4cea897c2adddc1b3a218c7a4a0dc010cfaf2c33aeb914  /tmp/re-nqx-final-dist.zip' | sha256sum -c -
       - name: Install exact frozen release
         run: |
           rm -rf re-NQX
@@ -36,5 +36,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
-          git commit -m 'Publish frozen Re:NQX release e3e1bb4cd2a690aec4931e89e7fda343d93b6bd5'
+          git commit -m 'Publish Re:NQX STEP 7A release 0cf8b333b88eeac5f3c60f3d2cc2c66ca8f1021d'
           git push
