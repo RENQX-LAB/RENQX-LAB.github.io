@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/re-NQX/sw.js', { scope: '/re-NQX/' })})}
