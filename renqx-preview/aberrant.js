@@ -1,19 +1,33 @@
-function hash32(text) {
-  let hash = 2166136261;
-  for (let index = 0; index < text.length; index += 1) {
-    hash ^= text.charCodeAt(index);
-    hash = Math.imul(hash, 16777619);
-  }
-  return hash >>> 0;
-}
+import { deriveClass } from './growth.js';
 
-export function createSeededRng(seed) {
-  let value = hash32(String(seed));
-  return () => {
-    value += 0x6D2B79F5;
-    let t = value;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
+export const SEED_NAMESPACE = 'Re:NQX|ABERRANT';
+export const SEED_VERSION = '2';
+export const TYPE_RATES = Object.freeze([['NQX',26],['Q',22],['ENQ',14],['ECHO',10],['VEIL',8],['DRIFT',7],['SIGNAL',6],['FRAGMENT',4],['REMNANT',3]]);
+const ABILITY_KEYS=Object.freeze(['LIFE','POWER','GUARD','SPEED','ABSORB','ADAPT']);
+const HIDDEN_KEYS=Object.freeze(['POTENTIAL','DECAY','MUTATION','INSTINCT']);
+const PERSONALITY_KEYS=Object.freeze(['AGGRESSION','CAUTION','CURIOSITY','STABILITY','COLLECTION','REACTIVITY']);
+const INITIAL_COLOR=Object.freeze({main:'#F4F1ED',sub:'#D9D9D6',core:'#FFFFFF'});
+const TYPE_ABILITY_MODS=Object.freeze({NQX:{ADAPT:12,GUARD:7,LIFE_MULTIPLIER:1.05},Q:{POWER:12,ABSORB:7,GUARD:-5},ENQ:{ADAPT:12,SPEED:7,POWER:-5},ECHO:{ADAPT:12,ABSORB:7,LIFE_MULTIPLIER:.95},VEIL:{GUARD:12,ADAPT:7,SPEED:-5},DRIFT:{SPEED:12,ADAPT:7,GUARD:-5},SIGNAL:{ADAPT:12,SPEED:7,ABSORB:-5},FRAGMENT:{POWER:7,SPEED:7},REMNANT:{GUARD:12,ABSORB:7,SPEED:-5}});
+const TYPE_PERSONALITY_BIAS=Object.freeze({NQX:{STABILITY:18,CURIOSITY:8},Q:{AGGRESSION:20,COLLECTION:8,CAUTION:-14},ENQ:{REACTIVITY:20,CAUTION:8,AGGRESSION:-14},ECHO:{CURIOSITY:18,COLLECTION:16,STABILITY:-8},VEIL:{STABILITY:18,CAUTION:18},DRIFT:{REACTIVITY:18,CURIOSITY:16,STABILITY:-15},SIGNAL:{REACTIVITY:18,STABILITY:8},FRAGMENT:{STABILITY:-18},REMNANT:{COLLECTION:18,STABILITY:16,REACTIVITY:-15}});
+const RARITY_RATES=Object.freeze([['COMMON',70],['UNCOMMON',23],['RARE',6],['ANOMALOUS',1]]);
+const TRAIT_LABELS=Object.freeze({AGGRESSION:['AGGRESSIVE','RESTRAINED'],CAUTION:['CAUTIOUS','BOLD'],CURIOSITY:['CURIOUS','FOCUSED'],STABILITY:['STABLE','VOLATILE'],COLLECTION:['COLLECTIVE','SELECTIVE'],REACTIVITY:['REACTIVE','CALM']});
+function clamp(value,min,max){return Math.min(max,Math.max(min,value));}
+function int(rng,min,max){return Math.floor(rng()*(max-min+1))+min;}
+function hash32(text){let hash=2166136261;for(let index=0;index<text.length;index+=1){hash^=text.charCodeAt(index);hash=Math.imul(hash,16777619);}return hash>>>0;}
+export function createSeededRng(seed){let value=hash32(String(seed));return()=>{value+=0x6D2B79F5;let t=value;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296;};}
+async function sha256Hex(text,cryptoImpl=globalThis.crypto){if(!cryptoImpl?.subtle)throw new Error('CRYPTO_UNAVAILABLE');const bytes=new TextEncoder().encode(text),digest=await cryptoImpl.subtle.digest('SHA-256',bytes);return Array.from(new Uint8Array(digest),byte=>byte.toString(16).padStart(2,'0')).join('');}
+export function hashQrText(qrText,cryptoImpl=globalThis.crypto){return sha256Hex(qrText,cryptoImpl);}
+export function deriveSeed(qrHash,generation,cryptoImpl=globalThis.crypto){return sha256Hex(`${SEED_NAMESPACE}|${SEED_VERSION}|${generation}|${qrHash}`,cryptoImpl);}
+export function deriveLineageSeed(qrHash,generation,lineageFingerprint='',cryptoImpl=globalThis.crypto){if(!lineageFingerprint)return deriveSeed(qrHash,generation,cryptoImpl);return sha256Hex(`${SEED_NAMESPACE}|${SEED_VERSION}|${generation}|${qrHash}|${lineageFingerprint}`,cryptoImpl);}
+function weightedPick(rng,entries){const total=entries.reduce((sum,[,weight])=>sum+weight,0);let roll=rng()*total;for(const[value,weight]of entries){roll-=weight;if(roll<0)return value;}return entries.at(-1)[0];}
+export function selectType(rng,affinity=null){if(!affinity)return weightedPick(rng,TYPE_RATES);return weightedPick(rng,TYPE_RATES.map(([type,weight])=>[type,weight+Math.max(0,Number(affinity[type])||0)*2]));}
+function selectRarity(rng){return weightedPick(rng,RARITY_RATES);}
+function rarityVariance(rarity){if(rarity==='ANOMALOUS')return 10;if(rarity==='RARE')return 6;if(rarity==='UNCOMMON')return 3;return 1;}
+function generateAbilities(rng,type,rarity){const spread=rarityVariance(rarity),fragmentSpread=type==='FRAGMENT'?7:0,abilities={LIFE:int(rng,70,120),POWER:int(rng,35,90),GUARD:int(rng,35,90),SPEED:int(rng,35,90),ABSORB:int(rng,35,90),ADAPT:int(rng,35,90)};for(const key of ABILITY_KEYS)abilities[key]+=int(rng,-(spread+fragmentSpread),spread+fragmentSpread);const mods=TYPE_ABILITY_MODS[type];for(const key of ABILITY_KEYS)if(Number.isFinite(mods[key]))abilities[key]+=mods[key];if(mods.LIFE_MULTIPLIER)abilities.LIFE=Math.round(abilities.LIFE*mods.LIFE_MULTIPLIER);abilities.LIFE=clamp(abilities.LIFE,60,126);for(const key of ABILITY_KEYS.slice(1))abilities[key]=clamp(abilities[key],20,115);return abilities;}
+function generateHidden(rng,type,rarity){const hidden=Object.fromEntries(HIDDEN_KEYS.map(key=>[key,int(rng,20,70)]));if(type==='FRAGMENT'){hidden.MUTATION+=18;hidden.DECAY+=10;}const amplitude=rarity==='ANOMALOUS'?18:rarity==='RARE'?10:rarity==='UNCOMMON'?5:0;if(amplitude)hidden[HIDDEN_KEYS[int(rng,0,HIDDEN_KEYS.length-1)]]+=int(rng,-amplitude,amplitude);for(const key of HIDDEN_KEYS)hidden[key]=clamp(hidden[key],0,99);return hidden;}
+function generatePersonality(rng,type,rarity){const axes=Object.fromEntries(PERSONALITY_KEYS.map(key=>[key,int(rng,38,62)])),shuffled=[...PERSONALITY_KEYS];for(let index=shuffled.length-1;index>0;index-=1){const swapIndex=int(rng,0,index);[shuffled[index],shuffled[swapIndex]]=[shuffled[swapIndex],shuffled[index]];}const count=rng()<.5?2:3,rarityBoost=rarity==='ANOMALOUS'?9:rarity==='RARE'?5:rarity==='UNCOMMON'?2:0;for(const key of shuffled.slice(0,count))axes[key]+=(rng()<.5?-1:1)*int(rng,16,25+rarityBoost);for(const[key,bias]of Object.entries(TYPE_PERSONALITY_BIAS[type]))axes[key]+=rng()<.12?-bias:bias;for(const key of PERSONALITY_KEYS)axes[key]=clamp(Math.round(axes[key]),0,100);return axes;}
+export function traitsFromPersonality(axes){return Object.entries(axes).map(([key,value])=>({key,value,distance:Math.abs(value-50)})).sort((a,b)=>b.distance-a.distance).slice(0,3).map(({key,value})=>TRAIT_LABELS[key][value>=50?0:1]);}
+function generateVisualParams(rng,rarity){const asymmetryCap=rarity==='ANOMALOUS'?1:rarity==='RARE'?.82:rarity==='UNCOMMON'?.58:.38;return{body:int(rng,0,2),head:int(rng,0,2),core:int(rng,0,3),appendage:int(rng,0,4),shell:int(rng,0,3),aura:int(rng,0,3),asymmetry:Number((rng()*asymmetryCap).toFixed(3)),scale:Number((.88+rng()*.24).toFixed(3)),aspect:Number((.82+rng()*.36).toFixed(3)),pattern:int(rng,0,4),offset:Number((-.12+rng()*.24).toFixed(3))};}
+function visualSimilarity(a,b){if(!a||!b)return 0;return['body','head','appendage','shell','aura','pattern'].filter(key=>a[key]===b[key]).length;}
+function generateVisual(seed,type,rarity,previous){const visualSeed=`${seed.slice(16,48)}:${type}`;let params;for(let attempt=0;attempt<=4;attempt+=1){params=generateVisualParams(createSeededRng(`${visualSeed}|${attempt}`),rarity);if(previous?.type!==type||visualSimilarity(params,previous.visualParams)<5)break;}return{visualSeed,params};}
+export function createAberrant({qrHash,seed,generation=1,previous=null,typeAffinity=null,createdAt=new Date().toISOString()}){const rng=createSeededRng(seed),type=selectType(rng,typeAffinity),rarityInternal=selectRarity(rng),abilities=generateAbilities(rng,type,rarityInternal),hidden=generateHidden(rng,type,rarityInternal),personalityAxes=generatePersonality(rng,type,rarityInternal),visual=generateVisual(seed,type,rarityInternal,previous),base={id:`AB-${seed.slice(0,12).toUpperCase()}-${String(generation).padStart(3,'0')}`,generation,qrHash,seedVersion:SEED_VERSION,seed,type,class:1,stage:0,sync:0,syncLimit:100,fragments:0,growthSpent:Object.fromEntries(ABILITY_KEYS.map(key=>[key,0])),abilities,hidden,personalityAxes,rarityInternal,visualSeed:visual.visualSeed,visualParams:visual.params,color:{...INITIAL_COLOR},visualChanges:[],traits:traitsFromPersonality(personalityAxes),coreReached:0,battleRecord:{battles:0,wins:0,losses:0,escapes:0,absorbs:0,pvpBattles:0,pvpWins:0,pvpLosses:0,streak:0,bestStreak:0,threatWins:{1:0,2:0,3:0,4:0,5:0}},explorationRecord:{runs:0,maxDepth:0,cores:0,failures:0,mazeBattles:0,fragmentsGained:0,fragmentsSpent:0},mutationHistory:[],createdAt};base.class=deriveClass(base);return base;}
