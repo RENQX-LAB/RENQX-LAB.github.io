@@ -23,7 +23,7 @@ import { createBattle, performBattleAction, battleMarkup } from './battle.js';
 const app=document.querySelector('#app'),params=new URLSearchParams(location.search);
 const requestedFloor=Math.max(1,Math.trunc(Number(params.get('floor'))||17)),forcedEncounter=params.get('encounter')==='1';
 const savedName=localStorage.getItem('renqx.preview.name')||'';
-const a={id:'AB-2719',name:savedName,type:'NQX',class:184,stage:2,generation:1,sync:37,syncLimit:100,fragments:18,seed:'RENQX-PREVIEW-NQX',visualSeed:'RENQX-PREVIEW-NQX',abilities:{LIFE:108,POWER:96,GUARD:88,SPEED:103,ABSORB:72,ADAPT:110},hidden:{POTENTIAL:54,DECAY:22,MUTATION:41,INSTINCT:58},growthSpent:{LIFE:12,POWER:10,GUARD:9,SPEED:13,ABSORB:8,ADAPT:28},color:{main:'#F4F1ED',sub:'#D9D9D6',core:'#FFFFFF'},visualParams:{body:1,head:1,core:1,appendage:2,shell:1,aura:1,asymmetry:.12,scale:1,aspect:1,pattern:1,offset:0},battleRecord:{},explorationRecord:{}};
+const a={id:'AB-2719',name:savedName,type:'NQX',class:103,stage:2,generation:1,sync:37,syncLimit:100,fragments:18,seed:'RENQX-PREVIEW-NQX',visualSeed:'RENQX-PREVIEW-NQX',abilities:{LIFE:108,POWER:96,GUARD:88,SPEED:103,ABSORB:72,ADAPT:110},hidden:{POTENTIAL:54,DECAY:22,MUTATION:41,INSTINCT:58},growthSpent:{LIFE:12,POWER:10,GUARD:9,SPEED:13,ABSORB:8,ADAPT:28},color:{main:'#F4F1ED',sub:'#D9D9D6',core:'#FFFFFF'},visualParams:{body:1,head:1,core:1,appendage:2,shell:1,aura:1,asymmetry:.12,scale:1,aspect:1,pattern:1,offset:0},battleRecord:{},explorationRecord:{}};
 let view='home',selected='',run=null,battle=null,phaseTimer=0,phaseLast=0,visualTimer=0,pointerStart=null;
 const label={LIFE:'生命',POWER:'攻撃',GUARD:'防御',SPEED:'速度',ABSORB:'吸収',ADAPT:'適応'};
 const name=()=>a.name.trim()||'名無し';
