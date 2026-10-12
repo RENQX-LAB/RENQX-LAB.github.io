@@ -1,134 +1,16 @@
-const FRAGMENT_KEY='renqx.preview.player.fragments';
 const HINT_KEYS=['up','left','right','down'];
-const QR_ROWS=`00000000000000000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000000000000000000000000000000000000000000
-00001111111001011111111111000110110010000011001101110010101100111011111110000
-00001000001011100010011011011000101000101010111001101100110011000010000010000
-00001011101011011101000110010100000000111001011101100101000001100010111010000
-00001011101011101100100010110011111110111011101110111011100111001010111010000
-00001011101001110101001000111100010011111100011100000101111001101010111010000
-00001000001001001110011101110110101010001010101010000100000101100010000010000
-00001111111010101010101010101010101010101010101010101010101010101011111110000
-00000000000011001100100001110011010110001110101110101101111111000000000000000
-00001000001010001110110000011110111011111110001001111010001000100110011100000
-00000110010001111001011001100011111011001111101101111111011111111110111010000
-00001100111010101010111110001101100100111011101101011110100010111001110100000
-00001100000011011101001011110010111101000010001001001011000011000100011010000
-00000101101010101000011011010010001001011000110011101100110010111100111010000
-00000111100111001010110010010100000001110100011111011101011011011101101100000
-00001000111101100000011001011110011001001001100001010010001010011001000100000
-00000111100010011111011001000110010111101010000010010110110110100001111000000
-00001010011101100010001110000000011011110100011101001000000101000100001100000
-00000110010100011010000000011111011010100001011101011101111011011100100100000
-00000110101110111010101110111010001010101010110000010010001110101101110010000
-00000110000110100010010101001010000101010010011001000001011000101110011010000
-00001010111000000101001100100011111110011110101101111110011100011010001010000
-00000111100011111000011011111001110110101110011011100111011011111110010110000
-00001100001110111010101010100000000000111000101001001111001110100100001100000
-00001001110000000011011101111001001101000110100110101101111010000100111010000
-00001001111110011111001100100000101111110110101010101100101010110110101100000
-00001101100110110011110010111101011101111101001011011100111111011101011000000
-00001101011000100111111111110100001001011001110011110000010110111001000100000
-00000111100101001110010010111011011111110100101101111000101110000000011010000
-00000001001001011101001100011111011010110100001000011000010100011100011010000
-00001011110011110001100110011111000100000101011000001101011101011101101110000
-00001100011001010111100011100111100001101111011100000110011101111111001110000
-00000100100010000100000011000001000101000011100001110010000011100010011100000
-00001010111111101111110001110011010011111010011100111100011101001111111000000
-00001000100011000000010100011001001010001110011111110110001001101000101100000
-00000101101011001010110111110111100010101111111110110010110011011010110100000
-00000010100011100001110011011111101110001110011100101011000000101000111010000
-00000000111110000110100100001000001111111110110010101110110011011111111000000
-00000010010011000110000101010100001010100101111001001100011111010101000100000
-00000011001001100100011001101110001000100011001011111100100001101100000100000
-00000100100011011111011001010010001010111011010001000011001011110001111100000
-00000001111001101010110011011111011110000010011101011101000100001101001000000
-00001010010101101111101000101101000100000101011111011000111101000011011110000
-00001101011010110000000011111010110101101110100011110001011001011010000110000
-00000001010111101000100000110111000000001010010011011100100100010010011000000
-00000111111100011100010000011101111001011010000100011110010100101010100000000
-00000100000100111010110001111011111001001111010011111110001111111000100110000
-00001001011000010011011010101100010101011011001101000011110011001100011100000
-00000000110101110101000110011000101111011101101000001001011110000110111010000
-00001010111111000011010001101100101001100100101010101000101110111100010110000
-00000010010000011111001111010101001011001101111001000100111001000011001100000
-00000100111101000100001010000010011011110000111100111111010000001100110100000
-00000001000111000110000010011011100011101101000011101110101011110110011000000
-00000101111011110001000010101000011100010011000101111100011101100110101000000
-00001010000110111010011011101001010011000111111111011101111011011110000100000
-00001011111111001101110001010111010100110110110011010110101010111011001010000
-00001111110110011011011001001100000101011011001111110101000011000000011010000
-00000100111100100101100011010110111010010101011000001110011100101010010110000
-00001000010000011100101001010000101000111111111001110111111111100101101100000
-00001010111010011110101111101100111010001011010100001011100011111101100100000
-00001000000011001001100000011111000001111000011000101100000000110000111010000
-00001001101111110000010010100001001111111000110010101010101011111111111010000
-00000000000011110101110101100001011010001101111111001101111101011000111110000
-00001111111000100010011010000100100110101001000000111000001011011010101100000
-00001000001001100010111000101100111110001100010110000100000001011000111110000
-00001011101000001001101100011010011011111010001100011100000101011111100100000
-00001011101000100011010101000011001011011101011011000100111111001001100000000
-00001011101000111000101010100001011100001101011010111011110001101011111110000
-00001000001000101100011000100010011110111000011000100010001000000101011000000
-00001111111010101001110110010010001000011000010101011010001100111101111100000
-00000000000000000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000000000000000000000000000000000000000000`.split('\n');
+const QR_SIZE=109;
+const QR_BITS='AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP7EVN3jDClbwWzE8/gEE5hpMu9tftMtMlwQQC6YxsiXdRNAOYuZdLoBdVWUP/sXFAERJ3ll0AutK6P+ab/mCP6byq6AQW208ar2R+kbE6lJBAP6qqqqqqqqqqqqqq/gABVhNFbiMaoWxayWAACLkVf/L+T63cf8WK/IA++muCUSrikp/gYzR4AP3wb3RKLCbycULxAaAGmbyecspdoFpJoJd4AIfwWAVTepbcFdIKebgH4BEAlEEtKe9vwbmFAD7BpiHkI/YrZ/QpAYoBCCA6cSUgEmXImoOXoA3+z3j+U4wLQtznPKUAaOfyYYjp96vGh24e5AB/Q+AmrB0g5hFi1ACgHJamHDVmDyjeSaxaeAA60zBHoI5we7UDvEhQACMamccTjj0SrKUVFwAS2uzsp8KiB2bWa0SSAeLJKQkCrNrFgNgBhbACrsuQ8KduojsVq0TLAFJBrEPcOcfdJ1KmilACv2xP+1oj8PQfgJB+oAcV7pRx8tEoEkeoXRoAyrj3q300qhLqvMEqsAfHWZMRG6R8lPFR2kbAE/7aj/n0/w8B/m5n9ABxkQQHPCGGhyKcDRSgALQdpAY3IHFrnIgxzgAAST11ZBpUdhLLkoT0AV+ty756TGSSeqb2LaAIIivgwH76bJ65pBEJALPNdj3xMNCit9Z6zegEYHBwrUNzcjbSzxfSQCviQ9pd4IRLBfYtRnIAwQQGTlF9PseqmgkIgAXgBnhBi2EKOxz5KkwAFJj6MgAAeJePmVwskAG8qmhLyE2A9Hjg1DegF5cIFGRe+nwSKexUyAC75ZqVasTxfDuXUIRgBYJw5XaeMfEdkMt3/sA9voxM8ELqLQH2bQKSAZPOgLzt5o5vKpqB2KAD+FCP+LSvh9v+S478AARyk1HSaschgxPjrGgBKyi2rsJOstJqwNArIBcVJ6xtXnFsUkXovxoA36DYPh4M+lCz6RdfiALvHZacZTC26K1652JAGqR8XWemlA8EVGllEgByzRKDaWoiySmchbeAA3hxPNjqm2NKWpDX+oBax/hlsO06/mrQk8YoAEjLsGdcCMbUFID0VSACtOkw5BZZ7BJprBfqAK74dlAcMKzbTDDEu8AFSh/Mr1e0paeuexRmgCquPExhpoQtBUALJVIAuQnjRi3tbs0suqHZIAaiI660WysNk3qnoTkAKKgu76gKOLC8wGI29AKP0BK+fkmn1AFG8n+gERfB0TLa9qBe8aQVIADuOmuaqz4Yg4yofxGYBKHVuQUIL78Qrf0FYsAb/9APk2C+KUD8K2PuAHFBNcatLx7FrF7hMZAGquVGrXFa69Kr6/KugCxvu5E/SsSRkR+jbFwA/s9F+I4r4tYvhuR/YBI8R0e7WmBsWu0o2egArzIt5BdsULE3dj16IAFA6oUwlHE5Sk2mla8AIv20bDDDsilAnA8DqgGJa2wmVeJujalSy5CgDftwoV4Bx3CoMg77HIBER6HhKwFYN7YbgS3QAjjkeIUOTyL0WIaUbyAXKe9+oRLG4J755NlpAOurNohdcDknIibbfRACIlT7hIaxthPFyBQlwCiIPSwfosNMIBspRvoAKtc44k3tls0qFs0gIA9g4y2HdMERSGUIU3kAbGvshN9mM6SNX43u0AJvUmd0xi2n1kgAkmigFqoje2Ge6+QeteTbiQAKvGz+7yn89B/4Zl/4AAYenxc/rEf40b7pxgA/qwk69HfqjQatDWaqAQRNhUTZZxqBBFaBMbALqa9n44UvuYg/Okf/AF0Yy0uSSF0ySCSdvYAC6Ns+ZOSrJvAJAPJN4BBJNQkMmsXIukfo0MsA/ofNuHmHaKK4cBxuUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==';
 
-function installCss(){
-  if(document.querySelector('[data-runtime-fixes-style]'))return;
-  const style=document.createElement('style');style.dataset.runtimeFixesStyle='1';style.textContent=`
-    html,body,#app{overscroll-behavior:none}body:has(.interstice-screen){overflow:hidden;position:fixed;inset:0;width:100%}.interstice-screen,#interstice-canvas{touch-action:none!important;overscroll-behavior:none!important}.interstice-canvas.phase-moving{animation:none!important;transform:none!important}
-    .preview-reward-overlay{position:fixed;left:50%;bottom:max(46px,calc(env(safe-area-inset-bottom) + 24px));z-index:999;transform:translateX(-50%);width:min(88vw,340px);padding:12px 14px;border:1px solid rgba(228,238,248,.42);background:rgba(4,6,9,.97);box-shadow:0 0 34px rgba(220,238,255,.14);color:#eef1f5;text-align:center;pointer-events:none}.preview-reward-overlay strong{display:block;font-size:10px;letter-spacing:.18em}.preview-reward-overlay span{display:block;margin-top:6px;font-size:8px;line-height:1.6;letter-spacing:.08em}
-    .preview-pvp-qr{display:grid;place-items:center;gap:16px;padding:28px 0}.preview-pvp-qr canvas{width:min(78vw,300px);height:min(78vw,300px);image-rendering:pixelated;background:#050608}.preview-pvp-qr p{margin:0;color:#818a95;font-size:8px;text-align:center;line-height:1.7}.preview-pvp-scanner video{width:100%;min-height:300px;background:#000;object-fit:cover}
-  `;document.head.appendChild(style);
-}
-
+function installCss(){if(document.querySelector('[data-runtime-fixes-style]'))return;const style=document.createElement('style');style.dataset.runtimeFixesStyle='1';style.textContent=`html,body,#app{overscroll-behavior:none}body:has(.interstice-screen){overflow:hidden;position:fixed;inset:0;width:100%}.interstice-screen,#interstice-canvas{touch-action:none!important;overscroll-behavior:none!important}.interstice-canvas.phase-moving{animation:none!important;transform:none!important}.preview-reward-overlay{position:fixed;left:50%;bottom:max(46px,calc(env(safe-area-inset-bottom) + 24px));z-index:999;transform:translateX(-50%);width:min(88vw,340px);padding:12px 14px;border:1px solid rgba(228,238,248,.42);background:rgba(4,6,9,.97);box-shadow:0 0 34px rgba(220,238,255,.14);color:#eef1f5;text-align:center;pointer-events:none}.preview-reward-overlay strong{display:block;font-size:10px;letter-spacing:.18em}.preview-reward-overlay span{display:block;margin-top:6px;font-size:8px;line-height:1.6;letter-spacing:.08em}.preview-pvp-qr{display:grid;place-items:center;gap:16px;padding:28px 0}.preview-pvp-qr canvas{width:min(78vw,300px);height:min(78vw,300px);image-rendering:pixelated;background:#050608}.preview-pvp-qr p{margin:0;color:#818a95;font-size:8px;text-align:center;line-height:1.7}.preview-pvp-scanner video{width:100%;min-height:300px;background:#000;object-fit:cover}`;document.head.appendChild(style);}
 let rewardTimer=0,lastCoreAt=0,lastBattleAt=0;
-function showReward(title,lines,duration=2800){
-  document.querySelector('.preview-reward-overlay')?.remove();
-  const box=document.createElement('section');box.className='preview-reward-overlay';box.innerHTML=`<strong>${title}</strong>${lines.map(line=>`<span>${line}</span>`).join('')}`;document.body.appendChild(box);clearTimeout(rewardTimer);rewardTimer=setTimeout(()=>box.remove(),duration);
-}
-function addPreviewFragments(amount){const current=Math.max(0,Math.trunc(Number(localStorage.getItem(FRAGMENT_KEY))||18));localStorage.setItem(FRAGMENT_KEY,String(current+amount));}
-
-function patchBlockedHints(){
-  const nodes=HINT_KEYS.map(key=>document.querySelector(`[data-hint-${key}]`));if(!nodes.some(Boolean))return;
-  const numeric=nodes.map(node=>Number(node?.textContent)).filter(Number.isFinite);const fallback=numeric.length?Math.round(numeric.reduce((a,b)=>a+b,0)/numeric.length):0;
-  HINT_KEYS.forEach((key,index)=>{const node=nodes[index];if(!node)return;const text=node.textContent.trim();if(text!=='--'){if(/^\d+$/.test(text))localStorage.setItem(`renqx.preview.hint.${key}`,text);return;}const stored=localStorage.getItem(`renqx.preview.hint.${key}`);node.textContent=String(stored===null?fallback:Math.trunc(Number(stored)||0)).padStart(2,'0');node.dataset.wallSignal='1';});
-}
-
-function detectRewards(){
-  patchBlockedHints();
-  const phaseNotice=document.querySelector('[data-interstice-notice]')?.textContent||'';
-  if(/CORE REACHED|位相核との接続/.test(phaseNotice)&&Date.now()-lastCoreAt>2500){lastCoreAt=Date.now();addPreviewFragments(5);showReward('PHASE RESULT',['FRAGMENT +5','全ステータス +1','SYNC 安定化']);}
-  const battle=document.querySelector('[data-battle-message]')?.textContent||'';
-  if(/勝利/.test(battle)&&Date.now()-lastBattleAt>2200){lastBattleAt=Date.now();showReward('BATTLE RESULT',['勝利','報酬 / SYNC 安定化']);}
-}
-
-function drawQr(canvas){const size=QR_ROWS.length,ctx=canvas.getContext('2d');canvas.width=size;canvas.height=size;ctx.imageSmoothingEnabled=false;ctx.fillStyle='#050608';ctx.fillRect(0,0,size,size);ctx.fillStyle='#e9edf6';for(let y=0;y<size;y+=1)for(let x=0;x<size;x+=1)if(QR_ROWS[y][x]==='1')ctx.fillRect(x,y,1,1);}
-function showPvpQr(){
-  const app=document.querySelector('#app');if(!app)return;app.innerHTML=`<main class="screen detail"><header class="back"><button type="button" data-preview-pvp-back>戻る</button><strong>対戦QR</strong></header><section class="preview-pvp-qr"><canvas data-preview-pvp-qr></canvas><p>相手端末で読み取ってください。<br>確認版QRです。</p></section><div class="pvp-actions"><button type="button" data-preview-pvp-scan>相手QRを読む</button></div></main>`;drawQr(app.querySelector('[data-preview-pvp-qr]'));
-}
-async function showPvpScanner(){
-  const app=document.querySelector('#app');if(!app)return;app.innerHTML=`<main class="screen detail"><header class="back"><button type="button" data-preview-pvp-back>戻る</button><strong>対戦QR読取</strong></header><section class="preview-pvp-scanner"><p class="help" data-preview-scan-message>カメラを起動しています…</p><video playsinline muted autoplay></video></section></main>`;const video=app.querySelector('video'),message=app.querySelector('[data-preview-scan-message]');
-  try{const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});video.srcObject=stream;await video.play();message.textContent='相手の対戦QRを画面内に入れてください';if('BarcodeDetector'in globalThis){const detector=new BarcodeDetector({formats:['qr_code']});const scan=async()=>{if(!document.body.contains(video)){stream.getTracks().forEach(track=>track.stop());return;}try{const codes=await detector.detect(video);if(codes[0]?.rawValue){message.textContent='QRを検出しました / 確認版では対戦計算は本体側で実行します';stream.getTracks().forEach(track=>track.stop());return;}}catch{}setTimeout(scan,350);};scan();}else message.textContent='カメラは起動しました。この確認版ではQR解析は端末対応時のみ有効です。';}catch{message.textContent='カメラを開始できませんでした';}
-}
-function returnPvp(){const app=document.querySelector('#app');if(!app)return;const button=[...document.querySelectorAll('.pvp-actions button')].find(node=>node.textContent.trim()==='対戦QRを表示');if(button)return;location.reload();}
-
-function handleClick(event){
-  const target=event.target?.closest?.('button');if(!target)return;
-  const text=target.textContent.trim();
-  if(target.matches('[data-preview-pvp-back]')){location.reload();return;}
-  if(target.matches('[data-preview-pvp-scan]')){void showPvpScanner();return;}
-  if(text==='対戦QRを表示'&&!target.dataset.action){event.preventDefault();event.stopImmediatePropagation();showPvpQr();return;}
-  if(text==='相手QRを読む'&&!target.dataset.action){event.preventDefault();event.stopImmediatePropagation();void showPvpScanner();return;}
-  setTimeout(detectRewards,0);setTimeout(detectRewards,80);setTimeout(detectRewards,400);
-}
+function showReward(title,lines,duration=2800){document.querySelector('.preview-reward-overlay')?.remove();const box=document.createElement('section');box.className='preview-reward-overlay';box.innerHTML=`<strong>${title}</strong>${lines.map(line=>`<span>${line}</span>`).join('')}`;document.body.appendChild(box);clearTimeout(rewardTimer);rewardTimer=setTimeout(()=>box.remove(),duration);}
+function patchBlockedHints(){const nodes=HINT_KEYS.map(key=>document.querySelector(`[data-hint-${key}]`));if(!nodes.some(Boolean))return;const numeric=nodes.map(node=>Number(node?.textContent)).filter(Number.isFinite),fallback=numeric.length?Math.round(numeric.reduce((a,b)=>a+b,0)/numeric.length):0;HINT_KEYS.forEach((key,index)=>{const node=nodes[index];if(!node)return;const text=node.textContent.trim();if(text!=='--'){if(/^\d+$/.test(text))localStorage.setItem(`renqx.preview.hint.${key}`,text);return;}const stored=localStorage.getItem(`renqx.preview.hint.${key}`);node.textContent=String(stored===null?fallback:Math.trunc(Number(stored)||0)).padStart(2,'0');node.dataset.wallSignal='1';});}
+function detectRewards(){patchBlockedHints();const phaseNotice=document.querySelector('[data-interstice-notice]')?.textContent||'';if(/CORE REACHED|位相核との接続/.test(phaseNotice)&&Date.now()-lastCoreAt>2500){lastCoreAt=Date.now();showReward('PHASE RESULT',['FRAGMENT獲得','全ステータス上昇','SYNC 安定化']);}const battle=document.querySelector('[data-battle-message]')?.textContent||'';if(/勝利/.test(battle)&&Date.now()-lastBattleAt>2200){lastBattleAt=Date.now();showReward('BATTLE RESULT',['勝利','報酬 / SYNC 安定化']);}}
+function qrBytes(){const binary=atob(QR_BITS),bytes=new Uint8Array(binary.length);for(let i=0;i<binary.length;i+=1)bytes[i]=binary.charCodeAt(i);return bytes;}
+function drawQr(canvas){const bytes=qrBytes(),ctx=canvas.getContext('2d');canvas.width=QR_SIZE;canvas.height=QR_SIZE;ctx.imageSmoothingEnabled=false;ctx.fillStyle='#050608';ctx.fillRect(0,0,QR_SIZE,QR_SIZE);ctx.fillStyle='#e9edf6';for(let index=0;index<QR_SIZE*QR_SIZE;index+=1){if(bytes[index>>3]&(1<<(7-(index&7))))ctx.fillRect(index%QR_SIZE,Math.floor(index/QR_SIZE),1,1);}}
+function showPvpQr(){const app=document.querySelector('#app');if(!app)return;app.innerHTML=`<main class="screen detail"><header class="back"><button type="button" data-preview-pvp-back>戻る</button><strong>対戦QR</strong></header><section class="preview-pvp-qr"><canvas data-preview-pvp-qr></canvas><p>相手端末で読み取ってください。<br>確認版QRです。</p></section><div class="pvp-actions"><button type="button" data-preview-pvp-scan>相手QRを読む</button></div></main>`;drawQr(app.querySelector('[data-preview-pvp-qr]'));}
+async function showPvpScanner(){const app=document.querySelector('#app');if(!app)return;app.innerHTML=`<main class="screen detail"><header class="back"><button type="button" data-preview-pvp-back>戻る</button><strong>対戦QR読取</strong></header><section class="preview-pvp-scanner"><p class="help" data-preview-scan-message>カメラを起動しています…</p><video playsinline muted autoplay></video></section></main>`;const video=app.querySelector('video'),message=app.querySelector('[data-preview-scan-message]');try{const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});video.srcObject=stream;await video.play();message.textContent='相手の対戦QRを画面内に入れてください';if('BarcodeDetector'in globalThis){const detector=new BarcodeDetector({formats:['qr_code']});const scan=async()=>{if(!document.body.contains(video)){stream.getTracks().forEach(track=>track.stop());return;}try{const codes=await detector.detect(video);if(codes[0]?.rawValue){message.textContent='QRを検出しました / 確認版では対戦計算は本体側で実行します';stream.getTracks().forEach(track=>track.stop());return;}}catch{}setTimeout(scan,350);};scan();}else message.textContent='カメラは起動しました。この確認版ではQR解析は端末対応時のみ有効です。';}catch{message.textContent='カメラを開始できませんでした';}}
+function handleClick(event){const target=event.target?.closest?.('button');if(!target)return;const text=target.textContent.trim();if(target.matches('[data-preview-pvp-back]')){location.reload();return;}if(target.matches('[data-preview-pvp-scan]')){void showPvpScanner();return;}if(text==='対戦QRを表示'&&!target.dataset.action){event.preventDefault();event.stopImmediatePropagation();showPvpQr();return;}if(text==='相手QRを読む'&&!target.dataset.action){event.preventDefault();event.stopImmediatePropagation();void showPvpScanner();return;}setTimeout(detectRewards,0);setTimeout(detectRewards,80);setTimeout(detectRewards,400);}
 function schedule(){setTimeout(detectRewards,0);setTimeout(detectRewards,60);setTimeout(detectRewards,220);}
-
-if(typeof document!=='undefined'){
-  installCss();document.addEventListener('click',handleClick,true);document.addEventListener('pointerup',schedule,{passive:true});document.addEventListener('visibilitychange',()=>{if(!document.hidden)schedule();});globalThis.addEventListener('pageshow',schedule);schedule();
-}
+if(typeof document!=='undefined'){installCss();document.addEventListener('click',handleClick,true);document.addEventListener('pointerup',schedule,{passive:true});document.addEventListener('visibilitychange',()=>{if(!document.hidden)schedule();});globalThis.addEventListener('pageshow',schedule);schedule();}
