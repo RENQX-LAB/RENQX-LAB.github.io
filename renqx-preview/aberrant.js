@@ -1,3 +1,4 @@
+import './maturity-preview.js';
 import { deriveClass } from './growth.js';
 
 export const SEED_NAMESPACE = 'Re:NQX|ABERRANT';
