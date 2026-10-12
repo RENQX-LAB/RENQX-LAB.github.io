@@ -1,5 +1,5 @@
-import './runtime-fixes.js';
-import './maturity-preview.js';
+import './runtime-fixes.js?v=20261012-16';
+import './maturity-preview.js?v=20261012-16';
 import { deriveClass } from './growth.js';
 
 export const SEED_NAMESPACE = 'Re:NQX|ABERRANT';
