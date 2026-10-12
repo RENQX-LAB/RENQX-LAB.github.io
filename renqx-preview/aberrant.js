@@ -1,3 +1,4 @@
+import './runtime-fixes.js';
 import './maturity-preview.js';
 import { deriveClass } from './growth.js';
 
