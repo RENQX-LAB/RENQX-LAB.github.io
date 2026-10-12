@@ -1,4 +1,4 @@
-import './runtime-fixes.js?v=20261012-21';
+import './runtime-fixes.js?v=20261012-22';
 import './maturity-preview.js?v=20261012-16';
 import { deriveClass } from './growth.js';
 
