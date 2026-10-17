@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>TRES ENGINE</title>
+<style>
+:root{color-scheme:dark;--bg:#090b0e;--p:#11161c;--line:#29323b;--txt:#f4f6f8;--muted:#95a0aa;--ok:#78e3a9;--warn:#f2ce68;--bad:#ff8585}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.wrap{max-width:1100px;margin:auto;padding:14px}.top{display:flex;justify-content:space-between;align-items:center;gap:10px;position:sticky;top:0;background:#090b0eee;backdrop-filter:blur(12px);padding:10px 0;z-index:3}.brand{font-weight:800;letter-spacing:.08em}.p{background:var(--p);border:1px solid var(--line);border-radius:14px;padding:13px;margin:10px 0}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.btn,.in{border:1px solid var(--line);background:#171c22;color:var(--txt);border-radius:10px;padding:9px;font:inherit}.btn{cursor:pointer}.pri{background:#eaf2ff;color:#07111f;border-color:#eaf2ff;font-weight:700}.small{font-size:12px;padding:7px}.muted{color:var(--muted);font-size:12px}.case{width:100%;text-align:left;background:#0d1116;color:inherit;border:1px solid var(--line);border-radius:12px;padding:11px;margin:7px 0}.tag{border:1px solid #36424e;border-radius:999px;padding:4px 8px;font-size:11px}.green{color:var(--ok)}.yellow{color:var(--warn)}.red{color:var(--bad)}.hide{display:none!important}.sec{border-left:3px solid #405164;padding-left:10px;margin:12px 0}.item{border:1px solid var(--line);border-radius:10px;padding:9px;margin:7px 0}.ev{border-top:1px dashed var(--line);margin-top:8px;padding-top:8px;font-size:12px}.login{max-width:410px;margin:12vh auto}.err{color:#ff9292;white-space:pre-wrap}.big{font-size:21px;font-weight:800}@media(max-width:720px){.g,.g2{grid-template-columns:1fr 1fr}.wrap{padding:10px}}@media(max-width:460px){.g,.g2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="login" class="p login">
+    <div class="brand">TRES ENGINE</div>
+    <p class="muted">運営者専用</p>
+    <input id="email" class="in" style="width:100%" type="email" autocomplete="username" placeholder="メール">
+    <input id="pw" class="in" style="width:100%;margin-top:8px" type="password" autocomplete="current-password" placeholder="パスワード">
+    <button id="signin" class="btn pri" style="width:100%;margin-top:10px">ログイン</button>
+    <div id="msg" class="err" style="margin-top:8px"></div>
+  </div>
+  <div id="app" class="hide">
+    <div class="top"><div><div class="brand">TRES ENGINE</div><div id="who" class="muted"></div></div><div class="row"><button id="back" class="btn small hide">案件一覧</button><button id="reload" class="btn small">更新</button><button id="logout" class="btn small">ログアウト</button></div></div>
+    <main id="list"><div class="g"><div class="p"><div class="muted">案件</div><div id="k1" class="big">0</div></div><div class="p"><div class="muted">観測中</div><div id="k2" class="big">0</div></div><div class="p"><div class="muted">固定処理</div><div id="k3" class="big">0</div></div><div class="p"><div class="muted">RED</div><div id="k4" class="big">0</div></div></div><div class="p"><div class="row" style="justify-content:space-between"><b>案件一覧</b><input id="filter" class="in" style="max-width:300px" placeholder="案件ID / プラン / 状態"></div><div id="cases"></div></div><details class="p"><summary><b>未案件化の申込</b></summary><div id="requests"></div></details><details class="p"><summary><b>保持・削除シグナル</b></summary><div id="retention"></div></details></main>
+    <main id="work" class="hide"></main>
+  </div>
+</div>
+<script type="module" src="./app.js"></script>
+</body></html>
